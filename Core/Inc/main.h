@@ -30,14 +30,15 @@ extern "C" {
 #include "stm32l4xx_hal.h"
 #include "stm32l4xx_ll_usart.h"
 #include "stm32l4xx_ll_rcc.h"
-#include "stm32l4xx_ll_system.h"
-#include "stm32l4xx_ll_gpio.h"
-#include "stm32l4xx_ll_exti.h"
 #include "stm32l4xx_ll_bus.h"
 #include "stm32l4xx_ll_cortex.h"
+#include "stm32l4xx_ll_system.h"
 #include "stm32l4xx_ll_utils.h"
 #include "stm32l4xx_ll_pwr.h"
+#include "stm32l4xx_ll_gpio.h"
 #include "stm32l4xx_ll_dma.h"
+
+#include "stm32l4xx_ll_exti.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -67,50 +68,54 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define B1_Pin LL_GPIO_PIN_13
+#define B1_Pin GPIO_PIN_13
 #define B1_GPIO_Port GPIOC
 #define B1_EXTI_IRQn EXTI15_10_IRQn
-#define LSE_IN_Pin LL_GPIO_PIN_14
+#define LSE_IN_Pin GPIO_PIN_14
 #define LSE_IN_GPIO_Port GPIOC
-#define LSE_OUT_Pin LL_GPIO_PIN_15
+#define LSE_OUT_Pin GPIO_PIN_15
 #define LSE_OUT_GPIO_Port GPIOC
-#define DBG_TX_Pin LL_GPIO_PIN_2
+#define DBG_TX_Pin GPIO_PIN_2
 #define DBG_TX_GPIO_Port GPIOA
-#define DBG_RX_Pin LL_GPIO_PIN_3
+#define DBG_RX_Pin GPIO_PIN_3
 #define DBG_RX_GPIO_Port GPIOA
-#define LD2_Pin LL_GPIO_PIN_5
+#define LD2_Pin GPIO_PIN_5
 #define LD2_GPIO_Port GPIOA
-#define COL_1_Pin LL_GPIO_PIN_10
+#define ECHO_Pin GPIO_PIN_6
+#define ECHO_GPIO_Port GPIOA
+#define TRIG_Pin GPIO_PIN_7
+#define TRIG_GPIO_Port GPIOA
+#define COL_1_Pin GPIO_PIN_10
 #define COL_1_GPIO_Port GPIOB
 #define COL_1_EXTI_IRQn EXTI15_10_IRQn
-#define COL_4_Pin LL_GPIO_PIN_7
+#define COL_4_Pin GPIO_PIN_7
 #define COL_4_GPIO_Port GPIOC
 #define COL_4_EXTI_IRQn EXTI9_5_IRQn
-#define COL_2_Pin LL_GPIO_PIN_8
+#define COL_2_Pin GPIO_PIN_8
 #define COL_2_GPIO_Port GPIOA
 #define COL_2_EXTI_IRQn EXTI9_5_IRQn
-#define COL_3_Pin LL_GPIO_PIN_9
+#define COL_3_Pin GPIO_PIN_9
 #define COL_3_GPIO_Port GPIOA
 #define COL_3_EXTI_IRQn EXTI9_5_IRQn
-#define ROW_1_Pin LL_GPIO_PIN_10
+#define ROW_1_Pin GPIO_PIN_10
 #define ROW_1_GPIO_Port GPIOA
-#define TMS_Pin LL_GPIO_PIN_13
+#define TMS_Pin GPIO_PIN_13
 #define TMS_GPIO_Port GPIOA
-#define TCK_Pin LL_GPIO_PIN_14
+#define TCK_Pin GPIO_PIN_14
 #define TCK_GPIO_Port GPIOA
-#define ROW_2_Pin LL_GPIO_PIN_3
+#define ROW_2_Pin GPIO_PIN_3
 #define ROW_2_GPIO_Port GPIOB
-#define ROW_4_Pin LL_GPIO_PIN_4
+#define ROW_4_Pin GPIO_PIN_4
 #define ROW_4_GPIO_Port GPIOB
-#define ROW_3_Pin LL_GPIO_PIN_5
+#define ROW_3_Pin GPIO_PIN_5
 #define ROW_3_GPIO_Port GPIOB
-#define NET_TX_Pin LL_GPIO_PIN_6
+#define NET_TX_Pin GPIO_PIN_6
 #define NET_TX_GPIO_Port GPIOB
-#define NET_RX_Pin LL_GPIO_PIN_7
+#define NET_RX_Pin GPIO_PIN_7
 #define NET_RX_GPIO_Port GPIOB
-#define OLED_SCL_Pin LL_GPIO_PIN_8
+#define OLED_SCL_Pin GPIO_PIN_8
 #define OLED_SCL_GPIO_Port GPIOB
-#define OLED_SDA_Pin LL_GPIO_PIN_9
+#define OLED_SDA_Pin GPIO_PIN_9
 #define OLED_SDA_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */

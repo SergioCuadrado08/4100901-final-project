@@ -46,7 +46,7 @@
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN PFP */
-void keypad_it_callback(uint16_t pin);
+
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -204,29 +204,13 @@ void SysTick_Handler(void)
 void EXTI9_5_IRQHandler(void)
 {
   /* USER CODE BEGIN EXTI9_5_IRQn 0 */
-
+	  HAL_GPIO_EXTI_IRQHandler(COL_4_Pin);
+	  HAL_GPIO_EXTI_IRQHandler(COL_2_Pin);
+	  HAL_GPIO_EXTI_IRQHandler(COL_3_Pin);
   /* USER CODE END EXTI9_5_IRQn 0 */
-  if (LL_EXTI_IsActiveFlag_0_31(LL_EXTI_LINE_7) != RESET)
-  {
-    LL_EXTI_ClearFlag_0_31(LL_EXTI_LINE_7);
-    /* USER CODE BEGIN LL_EXTI_LINE_7 */
-    keypad_it_callback(LL_GPIO_PIN_7);
-    /* USER CODE END LL_EXTI_LINE_7 */
-  }
-  if (LL_EXTI_IsActiveFlag_0_31(LL_EXTI_LINE_8) != RESET)
-  {
-    LL_EXTI_ClearFlag_0_31(LL_EXTI_LINE_8);
-    /* USER CODE BEGIN LL_EXTI_LINE_8 */
-    keypad_it_callback(LL_GPIO_PIN_8);
-    /* USER CODE END LL_EXTI_LINE_8 */
-  }
-  if (LL_EXTI_IsActiveFlag_0_31(LL_EXTI_LINE_9) != RESET)
-  {
-    LL_EXTI_ClearFlag_0_31(LL_EXTI_LINE_9);
-    /* USER CODE BEGIN LL_EXTI_LINE_9 */
-    keypad_it_callback(LL_GPIO_PIN_9);
-    /* USER CODE END LL_EXTI_LINE_9 */
-  }
+  HAL_GPIO_EXTI_IRQHandler(COL_4_Pin);
+  HAL_GPIO_EXTI_IRQHandler(COL_2_Pin);
+  HAL_GPIO_EXTI_IRQHandler(COL_3_Pin);
   /* USER CODE BEGIN EXTI9_5_IRQn 1 */
 
   /* USER CODE END EXTI9_5_IRQn 1 */
@@ -264,22 +248,11 @@ void USART2_IRQHandler(void)
 void EXTI15_10_IRQHandler(void)
 {
   /* USER CODE BEGIN EXTI15_10_IRQn 0 */
+	HAL_GPIO_EXTI_IRQHandler(COL_1_Pin);
 
   /* USER CODE END EXTI15_10_IRQn 0 */
-  if (LL_EXTI_IsActiveFlag_0_31(LL_EXTI_LINE_10) != RESET)
-  {
-    LL_EXTI_ClearFlag_0_31(LL_EXTI_LINE_10);
-    /* USER CODE BEGIN LL_EXTI_LINE_10 */
-    keypad_it_callback(LL_GPIO_PIN_10);
-    /* USER CODE END LL_EXTI_LINE_10 */
-  }
-  if (LL_EXTI_IsActiveFlag_0_31(LL_EXTI_LINE_13) != RESET)
-  {
-    LL_EXTI_ClearFlag_0_31(LL_EXTI_LINE_13);
-    /* USER CODE BEGIN LL_EXTI_LINE_13 */
-
-    /* USER CODE END LL_EXTI_LINE_13 */
-  }
+  HAL_GPIO_EXTI_IRQHandler(COL_1_Pin);
+  HAL_GPIO_EXTI_IRQHandler(B1_Pin);
   /* USER CODE BEGIN EXTI15_10_IRQn 1 */
 
   /* USER CODE END EXTI15_10_IRQn 1 */

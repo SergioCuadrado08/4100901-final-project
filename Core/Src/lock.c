@@ -18,7 +18,9 @@ ring_buffer_t keypad_rb;
 
 extern volatile uint16_t keypad_event;
 
-
+/*
+ * @brief Function thats detect the ring buffer to compare
+ * */
 static uint8_t lock_get_passkey(void)
 {
 	while (ring_buffer_size(&keypad_rb) == 0) {
@@ -36,6 +38,9 @@ static uint8_t lock_get_passkey(void)
 	return key_pressed;
 }
 
+/*
+ * @brief Function that changes the password for a new one
+ * */
 static uint8_t lock_get_password(void)
 {
 	uint8_t idx = 0;
@@ -63,7 +68,10 @@ static uint8_t lock_get_password(void)
 	}
 	return 1;
 }
-
+/*
+ * @brief Function that compares the input sequence with the password
+ *        returns 1 if the sequences is correct 0 if it isn't
+ * */
 static uint8_t lock_validate_password(void)
 {
 	uint8_t sequence[MAX_PASSWORD];
@@ -76,7 +84,9 @@ static uint8_t lock_validate_password(void)
 	}
 	return 0;
 }
-
+/*
+ * @brief Initialize the change password function
+ * */
 static void lock_update_password(void)
 {
 	if (lock_validate_password() != 0) {
@@ -86,7 +96,9 @@ static void lock_update_password(void)
 		GUI_Welcome();
 	}
 }
-
+/*
+ * @brief Open the lock and turn off the alarm
+ * */
 static void lock_open_lock(void)
 {
 	if (lock_validate_password() != 0) {
@@ -96,7 +108,9 @@ static void lock_open_lock(void)
 		GUI_Fail();
 	}
 }
-
+/*
+ * @brief Activate the alarm and lock the system
+ * */
 static void lock_Activate_lock(void)
 {
 	if (lock_validate_password() != 0) {
@@ -106,13 +120,16 @@ static void lock_Activate_lock(void)
 		GUI_Fail();
 	}
 }
-
+/*
+ * @brief Initialize the system welcome plot
+ * */
 void lock_init(void)
 {
 	ring_buffer_init(&keypad_rb, keypad_buffer, 12);
 	GUI_init();
 }
-
+/*@brief:  Check which function is call, add the key info to the ring buffer
+ * */
 void lock_sequence_handler(uint8_t key)
 {
 	if (key == '*') {

@@ -2,7 +2,7 @@ workspace {
     !identifiers hierarchical
     // definition of the model *********************************************************
     model {
-        user = person "USER" "4100901 Student"
+        user = person "USER" "4100901 Sergio Andrés Cuadrado Fragozo, Juan David Martinez Sanchez"
         
         host_pc = softwareSystem "PC for programming and Debug" "ST-Link" {
             tags "External System" 
@@ -18,12 +18,15 @@ workspace {
                 model = component "Model" "Parse the events from the controllers(keypad and commands) and updates the view"
                 comm = component "Command Manager" "Parse the commands from the internet and debug console"
                 keypad = component "Keypad Handler" "Parse the events from the keypad"
+                ultrasonic = component "Sensor Handler" "Parse the distance from the Ultrasonic" 
             }
             keypad = container "Keypad"
             st_link = container "VCOM Port"
             display = container "OLED Display" "I2C"
             esp8266 = container "ESP8266" "UART-WIFI Bridge"
-            led = container "LED Driver" "Mocks a door existance"
+            ultrasonic = container "Proximity detection"
+            buzzer = container "Buzzer" "Mocks a door existance"
+
         }
         
         // external parties related links
@@ -39,10 +42,11 @@ workspace {
         lock_system.keypad -> lock_system.stm32.keypad "Key pressed" "EXTi"
         lock_system.stm32.comm -> lock_system.stm32.model "Valid command"
         lock_system.stm32.keypad -> lock_system.stm32.model "Valid key"
-    
         lock_system.stm32.model -> lock_system.stm32.view "Model Event"
         lock_system.stm32.view -> lock_system.display "UI event" "I2C"
-        lock_system.stm32.view -> lock_system.led "LED Control" "GPIO/PWM"
+        lock_system.ultrasonic -> lock_system.stm32.ultrasonic "Distance Check"
+        lock_system.stm32.ultrasonic -> lock_system.stm32.model "Validate Distance"
+        lock_system.stm32.view -> lock_system.buzzer "Buzzer Control" "GPIO Output"
     }
     // definition of the views: context, container, component ***********************
     views {
@@ -63,6 +67,6 @@ workspace {
             element "External System" {
                 background #a0a0a0
             }
-        }
-    }
+        }
+    }
 }

@@ -58,6 +58,7 @@ uint16_t Distancee;
 #define ECHO_PIN ECHO_Pin
 uint8_t ctrl;
 uint8_t b =0;
+uint8_t a;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -141,32 +142,43 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-
+  const char *txBuffer= "Intruso";
   printf("Started\r\n");
   while (1)
   {
 	  Distancee = Sensor_Ultrasonico_GetDistance(&htim1);
 	  uint8_t key_pressed = keypad_run(&keypad_event);
 	  if (key_pressed != KEY_PRESSED_NONE) {
-			  printf("la tecla fue %x\r\n",key_pressed);
-			  lock_sequence_handler(key_pressed);
-	  if (ctrl!=0){
-		  Distancee = Sensor_Ultrasonico_GetDistance(&htim1);
-		  if(Distancee< 30){
-			  HAL_Delay(1000);
-			  const char *txBuffer = "Intruso";
-			  telnet_transmit(USART1,txBuffer);
 
+			  lock_sequence_handler(key_pressed);
+	  }
+	  if (ctrl==1){
+		  Distancee = Sensor_Ultrasonico_GetDistance(&htim1);
+		  b=1;
+		  if(Distancee<=30){
+
+			  b=2;
+			  HAL_Delay(1000);
+
+			  telnet_transmit(USART1,txBuffer);
+			  HAL_Delay(1000);
+			  HAL_GPIO_WritePin(GPIOA, Alarma_Pin, SET);
 		  }
+		  uint8_t keyt = telnet_receive(USART1);
+		  if (keyt!= a){
+			  a=keyt;
+			  lock_sequence_handler(keyt);
+		  }
+
 	  }
 	  else{
 		  Distancee = Sensor_Ultrasonico_GetDistance(&htim1);
-		  printf("Alarm off");
+		  HAL_GPIO_WritePin(GPIOA, Alarma_Pin, RESET);
 	  }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-  }
+
 }
   /* USER CODE END 3 */
 }
@@ -547,7 +559,7 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, LD2_Pin|TRIG_Pin|ROW_1_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, Alarma_Pin|TRIG_Pin|ROW_1_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, ROW_2_Pin|ROW_4_Pin|ROW_3_Pin, GPIO_PIN_RESET);
@@ -558,8 +570,8 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : LD2_Pin TRIG_Pin ROW_1_Pin */
-  GPIO_InitStruct.Pin = LD2_Pin|TRIG_Pin|ROW_1_Pin;
+  /*Configure GPIO pins : Alarma_Pin TRIG_Pin ROW_1_Pin */
+  GPIO_InitStruct.Pin = Alarma_Pin|TRIG_Pin|ROW_1_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;

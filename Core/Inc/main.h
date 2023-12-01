@@ -79,8 +79,8 @@ void Error_Handler(void);
 #define DBG_TX_GPIO_Port GPIOA
 #define DBG_RX_Pin GPIO_PIN_3
 #define DBG_RX_GPIO_Port GPIOA
-#define LD2_Pin GPIO_PIN_5
-#define LD2_GPIO_Port GPIOA
+#define Alarma_Pin GPIO_PIN_5
+#define Alarma_GPIO_Port GPIOA
 #define ECHO_Pin GPIO_PIN_6
 #define ECHO_GPIO_Port GPIOA
 #define TRIG_Pin GPIO_PIN_7

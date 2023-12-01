@@ -19,6 +19,11 @@ The project consists of a security system based on proximity detection for the a
 * The keypad for logging in and changing the system password.
 * The ultrasonic sensor is used for intrusion detection. 
 * The internet interface is used to alert the user in case of intruder detection, with the possibility of deactivating the alarm remotely.
+* To activate the alarm system, enter the password followed by the "D" key.
+* To deactivate the alarm system, enter the password followed by the "#" key.
+* To change the password, enter the current password followed by the "*" key.
+
+*Note: For security reasons, the system does not support passwords with the same consecutive symbols.
 
 ## Contact info
 * Sergio Andres Cuadrado Fragozo  secuadradof@unal.edu.co

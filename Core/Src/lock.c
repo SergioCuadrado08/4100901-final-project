@@ -3,6 +3,7 @@
 #include "keypad.h"
 #include "main.h"
 #include "gui.h"
+#include "Sensor_Ultrasonico.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -10,9 +11,8 @@
 
 #define MAX_PASSWORD 12
 
-
+extern uint8_t ctrl;
 uint8_t password[MAX_PASSWORD] = "1992";
-
 uint8_t keypad_buffer[MAX_PASSWORD];
 ring_buffer_t keypad_rb;
 
@@ -83,7 +83,7 @@ static void lock_update_password(void)
 		GUI_update_password_init();
 		lock_get_password();
 	} else {
-		GUI_locked();
+		GUI_Welcome();
 	}
 }
 
@@ -92,7 +92,17 @@ static void lock_open_lock(void)
 	if (lock_validate_password() != 0) {
 		GUI_unlocked();
 	} else {
+		GUI_Fail();
+	}
+}
+
+static void lock_Activate_lock(void)
+{
+	if (lock_validate_password() != 0) {
 		GUI_locked();
+		ctrl = 1;
+	} else {
+		GUI_Fail();
 	}
 }
 
@@ -113,3 +123,4 @@ void lock_sequence_handler(uint8_t key)
 	}
 
 }
+

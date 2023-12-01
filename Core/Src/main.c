@@ -55,6 +55,7 @@ volatile uint16_t keypad_event = KEYPAD_EVENT_NONE;
 uint16_t Distancee;
 #define TRIG_PIN TRIG_Pin
 #define ECHO_PIN ECHO_Pin
+uint8_t ctrl;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/

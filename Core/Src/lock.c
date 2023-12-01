@@ -12,7 +12,7 @@
 #define MAX_PASSWORD 12
 
 extern uint8_t ctrl;
-uint8_t password[MAX_PASSWORD] = "1992";
+uint8_t password[MAX_PASSWORD] = "1982";
 uint8_t keypad_buffer[MAX_PASSWORD];
 ring_buffer_t keypad_rb;
 
@@ -91,6 +91,7 @@ static void lock_open_lock(void)
 {
 	if (lock_validate_password() != 0) {
 		GUI_unlocked();
+		ctrl = 0;
 	} else {
 		GUI_Fail();
 	}
@@ -118,7 +119,9 @@ void lock_sequence_handler(uint8_t key)
 		lock_update_password();
 	} else if (key == '#') {
 		lock_open_lock();
-	} else {
+	} else if(key=='D'){
+		lock_Activate_lock();
+	}else {
 		ring_buffer_put(&keypad_rb, key);
 	}
 

@@ -26,6 +26,7 @@
 #include "lock.h"
 #include "keypad.h"
 #include "Sensor_Ultrasonico.h"
+#include "telnet_command.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -56,6 +57,7 @@ uint16_t Distancee;
 #define TRIG_PIN TRIG_Pin
 #define ECHO_PIN ECHO_Pin
 uint8_t ctrl;
+uint8_t b =0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -139,17 +141,28 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+
   printf("Started\r\n");
   while (1)
   {
 	  Distancee = Sensor_Ultrasonico_GetDistance(&htim1);
-	  if (Distancee <=50){
-		  uint8_t key_pressed = keypad_run(&keypad_event);
-		  if (key_pressed != KEY_PRESSED_NONE) {
-		  		  printf("la tecla fue %x\r\n",key_pressed);
-		  		  lock_sequence_handler(key_pressed);
-		  	  }
+	  uint8_t key_pressed = keypad_run(&keypad_event);
+	  if (key_pressed != KEY_PRESSED_NONE) {
+			  printf("la tecla fue %x\r\n",key_pressed);
+			  lock_sequence_handler(key_pressed);
+	  if (ctrl!=0){
+		  Distancee = Sensor_Ultrasonico_GetDistance(&htim1);
+		  if(Distancee< 30){
+			  HAL_Delay(1000);
+			  const char *txBuffer = "Intruso";
+			  telnet_transmit(USART1,txBuffer);
 
+		  }
+	  }
+	  else{
+		  Distancee = Sensor_Ultrasonico_GetDistance(&htim1);
+		  printf("Alarm off");
+	  }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
